@@ -17,8 +17,12 @@ export class Collection {
     return this.events.trigger;
   }
 
-  fetch() {
-    fetch(this.url)
+  fetch(text) {
+    this.models = [];
+    this.trigger('change');
+    this.trigger('loading');
+
+    fetch(this.url + text.trim().split(' ').join('+'))
       .then(response => response.json())
       .then(response => {
         response.docs.forEach(value => {
@@ -27,6 +31,7 @@ export class Collection {
         });
 
         this.trigger('change');
+        this.trigger('loaded');
       });
   }
 }

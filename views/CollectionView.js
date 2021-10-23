@@ -3,6 +3,8 @@ export class CollectionView {
   constructor(parent, collection) {
     this.parent = parent;
     this.collection = collection;
+
+    this.bindPreloader();
   }
 
   // abstract method
@@ -24,5 +26,17 @@ export class CollectionView {
     }
 
     this.parent.append(templateElement.content);
+  }
+
+  bindPreloader() {
+    this.collection.on('loading', () => {
+      console.log('loading');
+      this.parent.querySelector('#preloader').style.display = 'block';
+    });
+
+    this.collection.on('loaded', () => {
+      console.log('loaded');
+      this.parent.querySelector('#preloader').style.display = 'none';
+    });
   }
 }
