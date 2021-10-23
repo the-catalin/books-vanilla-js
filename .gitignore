@@ -2,3 +2,4 @@ node_modules
 .firebase
 404.html
 firebase.json
+.firebaserc
