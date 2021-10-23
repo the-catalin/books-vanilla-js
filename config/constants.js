@@ -7,5 +7,5 @@ export class Constants {
     return `https://openlibrary.org${bookKey}`;
   }
 
-  static booksUrl = 'https://openlibrary.org/search.json?title=the+lord+of+the+rings';
+  static booksUrl = 'https://openlibrary.org/search.json?title=';
 }

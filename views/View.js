@@ -11,10 +11,28 @@ export class View {
     throw new Error('You must provide a template');
   }
 
+  eventsMap() {
+    return {};
+  }
+
   bindModel() {
-    this.model.on('change', () => {
-      this.render();
-    });
+    if (this.model.on) {
+      this.model.on('change', () => {
+        this.render();
+      });
+    }
+  }
+
+  bindEvents(fragment) {
+    const eventsMap = this.eventsMap();
+
+    for (let eventKey in eventsMap) {
+      const [eventName, selector] = eventKey.split(':');
+
+      fragment.querySelectorAll(selector).forEach(element => {
+        element.addEventListener(eventName, eventsMap[eventKey]);
+      });
+    }
   }
 
   render() {
@@ -22,6 +40,8 @@ export class View {
 
     const templateElement = document.createElement('template');
     templateElement.innerHTML = this.template();
+
+    this.bindEvents(templateElement.content);
 
     this.parent.append(templateElement.content);
   }
