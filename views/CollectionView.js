@@ -29,6 +29,7 @@ export class CollectionView {
   }
 
   bindPreloader() {
+    console.log('binding preloader');
     this.collection.on('loading', () => {
       console.log('loading');
       this.parent.querySelector('#preloader').style.display = 'block';

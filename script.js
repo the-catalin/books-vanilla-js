@@ -20,11 +20,13 @@ searchModel.on('change', () => {
   books.fetch(searchText);
 });
 
+const content = document.getElementById('content');
+
 books.on('change', () => {
   // a good place to see the collection structure:
   console.log(books);
 
-  const content = document.getElementById('content');
-
+  // when a new BookListView is created, the previous instance (along with its listeners)
+  // should be deleted
   new BookListView(content, books).render();
 });
