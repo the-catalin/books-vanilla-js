@@ -7,12 +7,12 @@ const books = new Collection(Constants.booksUrl, json => {
   return Book.buildBook(json);
 });
 
-// a good place to see the collection structure:
-console.log(books);
-
 books.fetch();
 
 books.on('change', () => {
+  // a good place to see the collection structure:
+  console.log(books);
+
   const content = document.getElementById('content');
 
   new BookListView(content, books).render();
