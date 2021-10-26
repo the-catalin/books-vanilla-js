@@ -4,7 +4,7 @@ import { Model } from './Model.js';
 
 export class Search extends Model {
   static buildSearch() {
-    const attrs = { searchText: '' };
+    const attrs = { search: '' };
     return new Search(new Attributes(attrs), new Eventing());
   }
 }

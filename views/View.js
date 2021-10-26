@@ -3,6 +3,7 @@ export class View {
   constructor(parent, model) {
     this.parent = parent;
     this.model = model;
+    this.render();
     this.bindModel();
   }
 
@@ -16,11 +17,9 @@ export class View {
   }
 
   bindModel() {
-    if (this.model.on) {
-      this.model.on('change', () => {
-        this.render();
-      });
-    }
+    this.model.on('change', () => {
+      this.render();
+    });
   }
 
   bindEvents(fragment) {

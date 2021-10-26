@@ -19,7 +19,6 @@ export class Collection {
 
   fetch(text) {
     this.models = [];
-    this.trigger('change');
     this.trigger('loading');
 
     fetch(this.url + text.trim().split(' ').join('+'))

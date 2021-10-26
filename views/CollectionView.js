@@ -1,10 +1,15 @@
 // abstract class
 export class CollectionView {
+  templateElement;
+
   constructor(parent, collection) {
     this.parent = parent;
     this.collection = collection;
 
+    this.render();
+    this.bindModel();
     this.bindPreloader();
+    this.hide();
   }
 
   // abstract method
@@ -13,31 +18,60 @@ export class CollectionView {
   // abstract method
   renderItem(model, itemParent) {}
 
+  show() {
+    this.parent.style.display = 'block';
+  }
+  hide() {
+    this.parent.style.display = 'none';
+  }
+
   render() {
     this.parent.innerHTML = '';
 
-    const templateElement = document.createElement('template');
-    templateElement.innerHTML = this.template();
+    this.templateElement = document.createElement('template');
+    this.templateElement.innerHTML = this.template();
 
-    for (let model of this.collection.models) {
-      const itemParent = document.createElement('template');
-      this.renderItem(model, itemParent.content);
-      templateElement.content.querySelector('#content').append(itemParent.content);
-    }
-
-    this.parent.append(templateElement.content);
+    this.parent.append(this.templateElement.content);
   }
 
   bindPreloader() {
-    console.log('binding preloader');
     this.collection.on('loading', () => {
-      console.log('loading');
       this.parent.querySelector('#preloader').style.display = 'block';
     });
 
     this.collection.on('loaded', () => {
-      console.log('loaded');
       this.parent.querySelector('#preloader').style.display = 'none';
     });
+  }
+
+  bindModel() {
+    this.collection.on('change', () => {
+      this.renderCollection();
+    });
+    this.collection.on('loading', () => {
+      this.show();
+      this.render();
+    });
+  }
+
+  renderCollection() {
+    this.parent.innerHTML = '';
+
+    this.templateElement = document.createElement('template');
+    this.templateElement.innerHTML = this.template();
+
+    for (let model of this.collection.models) {
+      const itemParent = document.createElement('template');
+      this.renderItem(model, itemParent.content);
+      this.templateElement.content.querySelector('#content').append(itemParent.content);
+    }
+
+    if (!this.collection.models.length) {
+      this.templateElement.content.querySelector('#no-results').style.display = 'block';
+    } else {
+      this.templateElement.content.querySelector('#no-results').style.display = 'none';
+    }
+
+    this.parent.append(this.templateElement.content);
   }
 }

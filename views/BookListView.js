@@ -16,12 +16,14 @@ export class BookListView extends CollectionView {
     
         <div id="content" class="grid grid-cols-2 gap-y-10 sm:grid-cols-3 gap-x-6 lg:grid-cols-6 xl:grid-cols-6 xl:gap-x-8">
         </div>
+
+        <div id="no-results" style="display:none">No books found.</div>
       </div>
     </div>
     `;
   }
 
   renderItem(model, itemParent) {
-    new BookView(itemParent, model).render();
+    new BookView(itemParent, model);
   }
 }

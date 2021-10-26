@@ -5,28 +5,20 @@ import { Search } from './models/Search.js';
 import { BookListView } from './views/BookListView.js';
 import { SearchView } from './views/SearchView.js';
 
-const books = new Collection(Constants.booksUrl, json => {
+const booksModel = new Collection(Constants.booksUrl, json => {
   return Book.buildBook(json);
 });
+const booksElement = document.getElementById('content');
+new BookListView(booksElement, booksModel);
 
-const searchEl = document.getElementById('search');
 const searchModel = Search.buildSearch();
-const search = new SearchView(searchEl, searchModel);
-search.render();
+const searchElement = document.getElementById('search');
+new SearchView(searchElement, searchModel);
+
 searchModel.on('change', () => {
-  console.log('search changed: ' + searchModel.get('searchText'));
-  const searchText = searchModel.get('searchText');
+  const searchText = searchModel.get('search');
 
-  books.fetch(searchText);
+  booksModel.fetch(searchText);
 });
 
-const content = document.getElementById('content');
-
-books.on('change', () => {
-  // a good place to see the collection structure:
-  console.log(books);
-
-  // when a new BookListView is created, the previous instance (along with its listeners)
-  // should be deleted
-  new BookListView(content, books).render();
-});
+searchModel.set({ search: 'The Lord of The Rings' });
