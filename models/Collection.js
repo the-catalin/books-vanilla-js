@@ -4,8 +4,7 @@ export class Collection {
   models = [];
   events = new Eventing();
 
-  constructor(url, deserialize) {
-    this.url = url;
+  constructor(deserialize) {
     this.deserialize = deserialize;
   }
 
@@ -17,11 +16,11 @@ export class Collection {
     return this.events.trigger;
   }
 
-  fetch(text) {
+  fetch(url) {
     this.models = [];
     this.trigger('loading');
 
-    fetch(this.url + text.trim().split(' ').join('+'))
+    fetch(url)
       .then(response => response.json())
       .then(response => {
         response.docs.forEach(value => {
