@@ -12,6 +12,9 @@ export class View {
     throw new Error('You must provide a template');
   }
 
+  // abstract method
+  attachElements() {}
+
   eventsMap() {
     return {};
   }
@@ -43,5 +46,7 @@ export class View {
     this.bindEvents(templateElement.content);
 
     this.parent.append(templateElement.content);
+
+    this.attachElements();
   }
 }

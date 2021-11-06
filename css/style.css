@@ -1,0 +1,12 @@
+body {
+  background-color: #292929;
+}
+
+.rounded-12 {
+  border-radius: 12px;
+}
+
+#search-input {
+  height: 46px;
+  background-color: #292929;
+}
